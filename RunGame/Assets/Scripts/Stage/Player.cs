@@ -236,13 +236,8 @@ namespace RunGame.Stage
         /// <param name="collider">侵入したトリガー</param>
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            // ゴール判定
-            if (collider.tag == "Finish")
-            {
-                SceneController.Instance.StageClear();
-            }
             // ゲームオーバー判定
-            else if (collider.tag == "GameOver")
+            if (collider.tag == "GameOver")
             {
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
