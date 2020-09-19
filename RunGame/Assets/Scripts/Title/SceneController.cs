@@ -25,7 +25,7 @@ namespace RunGame.Title
                 // 『ステージ選択画面』へシーン遷移
                 SceneManager.LoadScene("Load");
             }
-            if (Input.GetKeyUp(KeyCode.Space))
+            else if (Input.GetKeyUp(KeyCode.Space))
             {
                 // 『ステージ選択画面』へシーン遷移
                 SceneManager.LoadScene("SelectStage");

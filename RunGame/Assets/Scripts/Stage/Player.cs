@@ -17,7 +17,7 @@ namespace RunGame.Stage
         private float dashSpeed = 8;
         // ジャンプの力を指定します。
         [SerializeField]
-        private float jumpPower = 150;
+        private float jumpPower = 5;
         // 設置判定の際に判定対象となるレイヤーを指定します。
         [SerializeField]
         private LayerMask groundLayer = 0;
