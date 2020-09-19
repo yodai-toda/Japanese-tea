@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace RunGame.Stage
 {
-    public class Exosist : MonoBehaviour
+    public class IttanMomen : MonoBehaviour
     {
         [SerializeField]
-        private float speed = 4;
+        private float speed = -4;
         Transform target;
-        
+
         new Rigidbody2D rigidbody;
         void Start()
         {
