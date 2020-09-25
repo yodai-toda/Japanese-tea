@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5092089703572462791}
   - component: {fileID: 5092089703572462788}
   - component: {fileID: 1372627291}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Exosist
   m_TagString: GameOver
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.99, y: 3.4}
+  m_Size: {x: 2.8, y: 3.5}
   m_EdgeRadius: 0
 --- !u!50 &5092089703572462791
 Rigidbody2D:

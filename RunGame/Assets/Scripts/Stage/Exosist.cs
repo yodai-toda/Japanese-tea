@@ -34,11 +34,6 @@ namespace RunGame.Stage
             var velocity = rigidbody.velocity;
             velocity.x = speed;
             rigidbody.velocity = velocity;
-            if (target == null)
-            {
-                speed = 0;
-                Animator.SetBool("Jorei", true);
-            }
             if(time >=  5.0f)
             {
                 Animator.SetFloat("Time", time);
@@ -48,6 +43,15 @@ namespace RunGame.Stage
             {
                 time = 0.0f;
                 Animator.SetFloat("Time", time);
+            }
+        }
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            // ゲームオーバー判定
+            if (collider.tag == "Player")
+            {
+                speed = 0;
+                Animator.SetBool("Jorei", true);
             }
         }
     }
