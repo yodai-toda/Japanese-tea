@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RunGame.Stage
 {
     /// <summary>
-    /// 『ダンゴムシ』を表します。
+    /// 『幽霊』を表します。
     /// </summary>
     public class Player : MonoBehaviour
     {
@@ -40,6 +40,7 @@ namespace RunGame.Stage
 
         // AnimatorのパラメーターID
         static readonly int dashId = Animator.StringToHash("isDash");
+        static readonly int jumpId = Animator.StringToHash("isJump");
 
         // ダッシュ状態の場合はtrue
         public bool IsDash {
@@ -145,8 +146,9 @@ namespace RunGame.Stage
             // 接地している場合
             if (isGrounded)
             {
-                // '右'キーが押し下げられている場合はダッシュ処理
-                if (Input.GetKey(KeyCode.RightArrow))
+                animator.SetBool("isJump", false);
+                // 'Enter'キーが押し下げられている場合はダッシュ処理
+                if (Input.GetKey(KeyCode.Return))
                 {
                     // x軸方向の移動
                     var velocity = rigidbody.velocity;
@@ -178,6 +180,7 @@ namespace RunGame.Stage
             // 空中状態の場合
             else
             {
+                animator.SetBool("isJump", true);
                 if (IsDash)
                 {
                     IsDash = false;
@@ -239,7 +242,8 @@ namespace RunGame.Stage
             // ゲームオーバー判定
             if (collider.tag == "GameOver")
             {
-                Destroy(gameObject);
+                speed = 0;
+                animator.SetBool("isGameOver", true);
                 SceneController.Instance.GameOver();
             }
             // アイテムを取得

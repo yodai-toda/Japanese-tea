@@ -6,13 +6,19 @@ namespace RunGame.Stage
 {
     public class Exosist : MonoBehaviour
     {
+        float time = 0.0f;
+
         [SerializeField]
         private float speed = 4;
         Transform target;
-        
+
+        Animator Animator;
+       
+
         new Rigidbody2D rigidbody;
         void Start()
         {
+            Animator = GetComponent<Animator>();
             target = GameObject.FindGameObjectWithTag("Player").transform;
             // 事前にコンポーネントを参照
             rigidbody = GetComponent<Rigidbody2D>();
@@ -22,14 +28,30 @@ namespace RunGame.Stage
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
+            time += Time.deltaTime;
             var velocity = rigidbody.velocity;
             velocity.x = speed;
             rigidbody.velocity = velocity;
-            if (target == null)
+            if(time >=  5.0f)
+            {
+                Animator.SetFloat("Time", time);
+                
+            }
+            if (time >= 5.1f)
+            {
+                time = 0.0f;
+                Animator.SetFloat("Time", time);
+            }
+        }
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            // ゲームオーバー判定
+            if (collider.tag == "Player")
             {
                 speed = 0;
+                Animator.SetBool("Jorei", true);
             }
         }
     }

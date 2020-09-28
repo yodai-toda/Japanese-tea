@@ -139,7 +139,7 @@ namespace RunGame.Stage
             {
                 PlayTime += Time.deltaTime;
 
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
                 // 「Enter」キーが押された場合『リザルト画面』へ
                 if (Input.GetKeyUp(KeyCode.Return))
                 {
@@ -152,7 +152,7 @@ namespace RunGame.Stage
                     GameOver();
                     break;
                 }
-#endif
+#endif*/
                 yield return null;
             }
         }
