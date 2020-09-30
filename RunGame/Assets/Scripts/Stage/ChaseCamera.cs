@@ -11,9 +11,11 @@ namespace RunGame.Stage
     {
         // 追尾対象(プレイヤー)
         Transform target;
+        float time = 0;
 
         // Start is called before the first frame update
-        void Start() {
+        void Start() 
+        {
             // 他のゲームオブジェクトを参照
             target = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -25,11 +27,11 @@ namespace RunGame.Stage
 
         // Update is called once per frame
         void Update() {
-            if (target != null) {
+            time += Time.deltaTime;
+            if (target != null && time >= 1.93f) 
+            {
                 var position = Camera.main.transform.position;
                 position.x = target.position.x;
-                //position.y = target.position.y;
-                //position.z = target.position.z;
                 Camera.main.transform.position = position;
             }
         }

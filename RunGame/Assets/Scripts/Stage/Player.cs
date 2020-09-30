@@ -9,12 +9,20 @@ namespace RunGame.Stage
     /// </summary>
     public class Player : MonoBehaviour
     {
+        public GameObject Prefabs;
+
         // 通常の移動速度を指定します。
         [SerializeField]
         private float speed = 4;
         // ダッシュ時の移動速度を指定します。
         [SerializeField]
         private float dashSpeed = 8;
+        // 塩と式神時の移動速度を指定します。
+        [SerializeField]
+        private float damageSpeed = 3;
+        // すり抜け使用時の移動速度を指定します。
+        [SerializeField]
+        private float transpareSpeed = 3;
         // ジャンプの力を指定します。
         [SerializeField]
         private float jumpPower = 5;
@@ -40,7 +48,6 @@ namespace RunGame.Stage
 
         // AnimatorのパラメーターID
         static readonly int dashId = Animator.StringToHash("isDash");
-        static readonly int jumpId = Animator.StringToHash("isJump");
 
         // ダッシュ状態の場合はtrue
         public bool IsDash {
@@ -75,6 +82,11 @@ namespace RunGame.Stage
             }
         }
         bool isDash = false;
+        bool isSalt = false;
+        bool isShikigami = false;
+        int DamageTime = 0;
+        bool isTranspare = false;
+        float time = 0;
 
         // 設置判定用のエリア
         Vector3 groundCheckA, groundCheckB;
@@ -116,6 +128,7 @@ namespace RunGame.Stage
         // Update is called once per frame
         void Update()
         {
+            time += Time.deltaTime;
             if (IsActive)
             {
                 // 転倒判定
@@ -142,13 +155,36 @@ namespace RunGame.Stage
                     SceneController.Instance.GameOver();
                 }
             }
-
+                        
             // 接地している場合
-            if (isGrounded)
+            if (isGrounded && speed != 0)
             {
                 animator.SetBool("isJump", false);
+                if (isSalt == true || isShikigami == true)
+                {
+                    var velocity = rigidbody.velocity;
+                    velocity.x = damageSpeed;
+                    rigidbody.velocity = velocity;
+                    DamageTime += 1;
+                    if (DamageTime >= 400)
+                    {
+                        isSalt = false;
+                        isShikigami = false;
+                        DamageTime = 0;
+                        animator.SetBool("isSalt", false);
+                    }
+                }
+                // '下'キーが押し下げられている場合はすり抜け処理
+                if (Input.GetKey(KeyCode.DownArrow) && IsDash == false && time >= 4.0f)
+                {
+                    isTranspare = true;
+                    var velocity = rigidbody.velocity;
+                    velocity.x = transpareSpeed;
+                    rigidbody.velocity = velocity;
+                    animator.SetBool("isTranspare", true);
+                }
                 // 'Enter'キーが押し下げられている場合はダッシュ処理
-                if (Input.GetKey(KeyCode.Return))
+                else if (Input.GetKey(KeyCode.Return) && isSalt == false && time >= 4.0f)
                 {
                     // x軸方向の移動
                     var velocity = rigidbody.velocity;
@@ -161,7 +197,7 @@ namespace RunGame.Stage
                     }
                 }
                 // '上'キーが押された場合はジャンプ処理
-                else if (Input.GetKeyDown(KeyCode.UpArrow))
+                else if (Input.GetKeyDown(KeyCode.UpArrow) && time >= 4.0f)
                 {
                     IsDash = false;
                     rigidbody.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
@@ -171,10 +207,15 @@ namespace RunGame.Stage
                 else
                 {
                     IsDash = false;
+                    isTranspare = false;
                     // x軸方向の移動
-                    var velocity = rigidbody.velocity;
-                    velocity.x = speed;
-                    rigidbody.velocity = velocity;
+                    if (isSalt == false)
+                    {
+                        var velocity = rigidbody.velocity;
+                        velocity.x = speed;
+                        rigidbody.velocity = velocity;
+                    }
+                    animator.SetBool("isTranspare", false);
                 }
             }
             // 空中状態の場合
@@ -239,18 +280,39 @@ namespace RunGame.Stage
         /// <param name="collider">侵入したトリガー</param>
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            // ゲームオーバー判定
-            if (collider.tag == "GameOver")
-            {
-                speed = 0;
-                animator.SetBool("isGameOver", true);
-                SceneController.Instance.GameOver();
-            }
             // アイテムを取得
-            else if (collider.tag == "Item")
+            if (collider.tag == "Item")
             {
                 // 取得したアイテムを削除
                 Destroy(collider.gameObject);
+            }// ゲームオーバー判定
+            if (collider.tag == "Exosist" || collider.tag == "Monster")
+            {
+                speed = 0;
+                //animator.SetBool("isGameOver", true);
+                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+                SceneController.Instance.GameOver();
+            }
+            // 塩ダメージ
+            if (collider.tag == "Salt")
+            { 
+                animator.SetBool("isSalt", true);
+                isSalt = true;
+            }
+            // 式神ダメージ
+            else if (collider.tag == "Shikigami")
+            {
+                animator.SetBool("isShikigami", true);
+            }
+            // 結界と接触
+            else if (collider.tag == "Kekkai" && isTranspare == false)
+            {
+                speed = 0;
+                //animator.SetBool("isGameOver", true);
+                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+                SceneController.Instance.GameOver();
             }
         }
     }
