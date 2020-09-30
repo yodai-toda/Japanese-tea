@@ -7,6 +7,11 @@ TagManager:
   - SceneController
   - GameOver
   - Item
+  - Exosist
+  - Monster
+  - Salt
+  - Shikigami
+  - Kekkai
   layers:
   - Default
   - TransparentFX

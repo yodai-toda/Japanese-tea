@@ -19,13 +19,7 @@ namespace RunGame.Title
         // Update is called once per frame
         void Update()
         {
-            // 「Enter」キーが押された場合
-            if (Input.GetKeyUp(KeyCode.Return))
-            {
-                // 『ステージ選択画面』へシーン遷移
-                SceneManager.LoadScene("Load");
-            }
-            else if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space))
             {
                 // 『ステージ選択画面』へシーン遷移
                 SceneManager.LoadScene("SelectStage");
@@ -39,7 +33,7 @@ namespace RunGame.Title
         public void OnClickStartButton()
         {
             // 『ステージ選択画面』へシーン遷移
-            SceneManager.LoadScene("Load");
+            SceneManager.LoadScene("SelectStage");
         }
     }
 }
