@@ -27,23 +27,7 @@ namespace RunGame.Stage
             instance = this;
         }
         #endregion
-
-        /// <summary>
-        /// 起動するシーン番号を取得または設定します。
-        /// </summary>
-        public static int StageNo {
-            get { return stageNo; }
-            set { stageNo = value; }
-        }
-        private static int stageNo = 0;
-
-        /// <summary>
-        /// プレハブからステージを生成する場合はtrueを指定します。
-        /// </summary>
-        /// <remarks>ステージ開発用のシーンではfalseに設定します。</remarks>
-        [SerializeField]
-        private bool instantiateStage = true;
-
+      
         /// <summary>
         /// ステージ開始からの経過時間(秒)を取得します。
         /// </summary>
@@ -66,28 +50,12 @@ namespace RunGame.Stage
         {
             // 他のゲームオブジェクトを参照
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-
-            // ステージプレハブを読み込む
-            if (instantiateStage)
-            {
-                var stageName = string.Format("Stage {0}", stageNo);
-                var stage = Resources.Load<GameObject>(stageName);
-                Instantiate(stage);
-            }
-
-            // それぞれのステージ用のBGMを再生
+                        
+            // ステージ用のBGMを再生
             AudioClip clip = null;
             // bgmを読み込む
-            if (stageNo == GameController.Instance.StageNames.Length - 1)
-            {
-                // 最終ステージの場合
-                clip = Resources.Load<AudioClip>("bgm_02");
-            }
-            else
-            {
-                // 通常ステージの場合
-                clip = Resources.Load<AudioClip>("bgm_01");
-            }
+            clip = Resources.Load<AudioClip>("bgm_01");
+            
             var bgmAudio = Camera.main.GetComponent<AudioSource>();
             bgmAudio.clip = clip;
             bgmAudio.Play();
@@ -168,10 +136,7 @@ namespace RunGame.Stage
                 StopCoroutine(playState);
             }
 
-            player.IsActive = false;
-
-            // ステージクリアー演出のコルーチンを開始
-            StartCoroutine(OnStageClear());
+            player.IsActive = false;           
         }
 
         /// <summary>
@@ -187,34 +152,6 @@ namespace RunGame.Stage
 
             player.IsActive = false;
             UiManager.Instance.GameOver.Show();
-        }
-
-        /// <summary>
-        /// StageClearステートの際のフレーム更新処理です。
-        /// </summary>
-        IEnumerator OnStageClear()
-        {
-            // ベストタイムを更新
-            if (PlayTime < GameController.Instance.BestTime)
-            {
-                GameController.Instance.BestTime = PlayTime;
-            }
-            UiManager.Instance.ShowMessage("CLEAR!");
-            yield return new WaitForSeconds(1);
-            // 入力を待ち受けるために無限ループ
-            while (true)
-            {
-                // 「Enter」キーが押された場合
-                if (Input.GetKeyUp(KeyCode.Return))
-                {
-                    // ステージ番号を伝えてから「Result」を読み込む
-                    Result.SceneController.StageNo = StageNo;
-                    Result.SceneController.ClearTime = PlayTime;
-                    SceneManager.LoadScene("Result");
-                    break;
-                }
-                yield return null;  // 次のフレームまで待機
-            }
-        }
+        }        
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Salt
   - Shikigami
   - Kekkai
+  - SoulAttack
   layers:
   - Default
   - TransparentFX

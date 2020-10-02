@@ -9,6 +9,7 @@ namespace RunGame.Stage
         public GameObject Prefabs;
         float time = 0.0f;
         float Starttime = 0.0f;
+        float SoulTime = 5.0f;
 
         [SerializeField]
         private float speed = 4;
@@ -34,6 +35,7 @@ namespace RunGame.Stage
         {
             time += Time.deltaTime;
             Starttime += Time.deltaTime;
+            SoulTime += Time.deltaTime;
             var velocity = rigidbody.velocity;
             velocity.x = speed;
             rigidbody.velocity = velocity;
@@ -52,6 +54,10 @@ namespace RunGame.Stage
             {
                 speed = 6;
             }
+            else if (SoulTime < 3.0f)
+            {
+                speed = 2;
+            }
             else if (speed != 0)
             {
                 speed = 4;
@@ -62,14 +68,14 @@ namespace RunGame.Stage
                 Animator.SetBool("Jorei", true);
             }
         }
-/*        private void OnTriggerEnter2D(Collider2D collider)
+        private void OnTriggerEnter2D(Collider2D collider)
         {
             // ゲームオーバー判定
-            if (collider.tag == "Player")
+            if (collider.tag == "SoulAttack")
             {
-                speed = 0;
-                Animator.SetBool("Jorei", true);
+                speed = 2;
+                SoulTime = 0.0f;
             }
-        }*/
+        }
     }
 }

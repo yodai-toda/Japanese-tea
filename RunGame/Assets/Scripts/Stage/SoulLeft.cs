@@ -4,38 +4,36 @@ using UnityEngine;
 
 namespace RunGame.Stage
 {
-    public class Salt : MonoBehaviour
+    public class SoulLeft : MonoBehaviour
     {
         [SerializeField]
-        private float speed = 6;
-        Transform target;
+        private float speed = 4;
 
         new Rigidbody2D rigidbody;
         void Start()
         {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
             // 事前にコンポーネントを参照
             rigidbody = GetComponent<Rigidbody2D>();
 
-            // Box Collider 2Dの判定エリアを取得
-            var collider = GetComponent<BoxCollider2D>();
+            // Capsule Collider 2Dの判定エリアを取得
+            var collider = GetComponent<CapsuleCollider2D>();
         }
-        
+
         // Update is called once per frame
         void Update()
         {
             var velocity = rigidbody.velocity;
-            velocity.x = speed;
+            velocity.x = -speed;
             rigidbody.velocity = velocity;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.tag == "Player" || collider.tag == "Monster" || collider.tag == "SoulAttack")
+            if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Salt" || collider.tag == "Kekkai")
             {
                 Destroy(gameObject);
             }
-            
         }
     }
+    
 }

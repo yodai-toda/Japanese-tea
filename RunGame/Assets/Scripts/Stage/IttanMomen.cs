@@ -37,7 +37,7 @@ namespace RunGame.Stage
             {
                 speed = 0;
             }
-            if (collider.tag == "Exosist")
+            if (collider.tag == "Exosist" || collider.tag == "SoulAttack")
             {
                 Destroy(gameObject);
             }

@@ -22,18 +22,8 @@ namespace RunGame.Title
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 // 『ステージ選択画面』へシーン遷移
-                SceneManager.LoadScene("SelectStage");
+                SceneManager.LoadScene("OperationExplanation");
             }
-        }
-
-        /// <summary>
-        /// 「StartButton」をクリックした際に
-        /// 呼び出されます。
-        /// </summary>
-        public void OnClickStartButton()
-        {
-            // 『ステージ選択画面』へシーン遷移
-            SceneManager.LoadScene("SelectStage");
         }
     }
 }

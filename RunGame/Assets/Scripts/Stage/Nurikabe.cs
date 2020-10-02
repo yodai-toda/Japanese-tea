@@ -25,7 +25,7 @@ namespace RunGame.Stage
         }
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.tag == "Exosist")
+            if (collider.tag == "Exosist" || collider.tag == "SoulAttack")
             {
                 Destroy(gameObject);
             }

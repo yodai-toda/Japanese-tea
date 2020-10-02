@@ -17,16 +17,15 @@ namespace RunGame.Stage
         private GameObject gameOver = null;
 
         /// <summary>
-        /// 「RETRY」ボタンと「TITLE」ボタンを指定します。
+        /// 「RESULT」ボタンを指定します。
         /// </summary>
         /// <remarks>
-        /// buttons[0]   retryButton
-        /// buttons[1]   titleButton
+        /// buttons[0]   resultButton
         /// </remarks>
         [SerializeField]
         private Transform[] buttons = null;
 
-        // 0の場合はretryButton、1の場合はtitleButton
+        // 0の場合はresultButton
         int selectedIndex = 0;
 
         /// <summary>
@@ -48,30 +47,13 @@ namespace RunGame.Stage
 
             while (true)
             {
-                // 左カーソルキーが押された場合
-                if (Input.GetKeyUp(KeyCode.LeftArrow))
-                {
-                    selectedIndex--;
-                }
-                // 右カーソルキーが押された場合
-                else if (Input.GetKeyUp(KeyCode.RightArrow))
-                {
-                    selectedIndex++;
-                }
                 // 「Enter」キーが押された場合
-                else if (Input.GetKeyUp(KeyCode.Return))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    // 「RETRY」選択中
+                    // 「RESULT」選択中
                     if (selectedIndex == 0)
                     {
-                        // 現在起動しているシーンを再読み込み
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                        break;
-                    }
-                    // 「TITLE」選択中
-                    else if (selectedIndex == 1)
-                    {
-                        SceneManager.LoadScene("Title");
+                        SceneManager.LoadScene("Result");
                         break;
                     }
                 }

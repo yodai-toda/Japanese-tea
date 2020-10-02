@@ -10,6 +10,8 @@ namespace RunGame.Stage
     public class Player : MonoBehaviour
     {
         public GameObject Prefabs;
+        public GameObject SoulRightPrefabs;
+        public GameObject SoulLeftPrefabs;
 
         // 通常の移動速度を指定します。
         [SerializeField]
@@ -32,6 +34,9 @@ namespace RunGame.Stage
         // ダッシュの際のサウンドを指定します。
         [SerializeField]
         private AudioClip soundOnDash = null;
+        // 人魂の所持数を指定します
+        [SerializeField]
+        private int soul = 0;
 
         /// <summary>
         /// プレイ中の場合はtrue、ステージ開始前またはゲームオーバー時にはfalse
@@ -87,6 +92,7 @@ namespace RunGame.Stage
         int DamageTime = 0;
         bool isTranspare = false;
         float time = 0;
+        float SoulTime = 6;
 
         // 設置判定用のエリア
         Vector3 groundCheckA, groundCheckB;
@@ -129,6 +135,7 @@ namespace RunGame.Stage
         void Update()
         {
             time += Time.deltaTime;
+            SoulTime += Time.deltaTime;
             if (IsActive)
             {
                 // 転倒判定
@@ -204,6 +211,26 @@ namespace RunGame.Stage
                     // ジャンプ状態に設定
                     isGrounded = false;
                 }
+                else if(Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
+                {
+                    if (soul > 0 && SoulTime >= 5.0f)
+                    {
+                        soul--;
+                        SoulTime = 0;
+                        animator.SetBool("isRightAttack", true);
+                        Instantiate(SoulRightPrefabs, transform.position, Quaternion.identity);
+                    }
+                }
+                else if(Input.GetKeyDown(KeyCode.LeftArrow) && time >= 4.0f)
+                {
+                    if (soul > 0 && SoulTime >= 5.0f)
+                    {
+                        soul--;
+                        SoulTime = 0;
+                        animator.SetBool("isLeftAttack", true);
+                        Instantiate(SoulLeftPrefabs, transform.position, Quaternion.identity);
+                    }
+                }
                 else
                 {
                     IsDash = false;
@@ -216,6 +243,8 @@ namespace RunGame.Stage
                         rigidbody.velocity = velocity;
                     }
                     animator.SetBool("isTranspare", false);
+                    animator.SetBool("isRightAttack", false);
+                    animator.SetBool("isLeftAttack", false);
                 }
             }
             // 空中状態の場合
@@ -283,6 +312,7 @@ namespace RunGame.Stage
             // アイテムを取得
             if (collider.tag == "Item")
             {
+                soul++;
                 // 取得したアイテムを削除
                 Destroy(collider.gameObject);
             }// ゲームオーバー判定
