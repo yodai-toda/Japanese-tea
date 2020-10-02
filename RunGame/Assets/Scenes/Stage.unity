@@ -1417,7 +1417,8 @@ MonoBehaviour:
     type: 3}
   NurikabePrefabs: {fileID: 6478242554705394673, guid: 2644a14ac44d8c54eae14525ac8869bc,
     type: 3}
-  CatPrefabs: {fileID: 0}
+  CatPrefabs: {fileID: 4871491146651546263, guid: 55fe165cf3f87a641aefcb5b2e920a67,
+    type: 3}
 --- !u!1 &1204071290 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7707037786211876415, guid: 968f947653cbb1049aeaca03882815a8,
