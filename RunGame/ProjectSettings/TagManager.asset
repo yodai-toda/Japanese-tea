@@ -13,6 +13,8 @@ TagManager:
   - Shikigami
   - Kekkai
   - SoulAttack
+  - Cat
+  - Nurikabe
   layers:
   - Default
   - TransparentFX

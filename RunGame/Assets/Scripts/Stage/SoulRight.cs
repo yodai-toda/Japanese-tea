@@ -29,7 +29,7 @@ namespace RunGame.Stage
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Salt" || collider.tag == "Kekkai")
+            if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Nurikabe" || collider.tag == "Salt" || collider.tag == "Kekkai")
             {
                 Destroy(gameObject);
             }

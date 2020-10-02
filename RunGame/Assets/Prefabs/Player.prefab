@@ -121,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.04}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -132,7 +132,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 2.9}
+  m_Size: {x: 1.5, y: 2.98}
   m_EdgeRadius: 0
 --- !u!95 &9048238283160158225
 Animator:
@@ -262,13 +262,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefabs: {fileID: 4353083138417054892, guid: a50384fe47b90174d966a91efe63478d, type: 3}
+  SoulRightPrefabs: {fileID: 2711354392277508760, guid: 1e0e2255e0fe39148aecb4402cd838ce,
+    type: 3}
+  SoulLeftPrefabs: {fileID: 411827191851885148, guid: 074f291943390ef4aa6dee1d699f298f,
+    type: 3}
   speed: 4
   dashSpeed: 6
   damageSpeed: 2
   transpareSpeed: 3
-  jumpPower: 9
+  jumpPower: 9.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
   soundOnDash: {fileID: 8300000, guid: bb12485cddd7eee4eb0ebb425a257757, type: 3}
+  soul: 5
   isGrounded: 0

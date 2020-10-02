@@ -89,10 +89,12 @@ namespace RunGame.Stage
         bool isDash = false;
         bool isSalt = false;
         bool isShikigami = false;
-        int DamageTime = 0;
+        float DamageTime = 0;
         bool isTranspare = false;
         float time = 0;
         float SoulTime = 6;
+        bool isCat = false;
+        float CatTime = 5.0f;
 
         // 設置判定用のエリア
         Vector3 groundCheckA, groundCheckB;
@@ -134,8 +136,10 @@ namespace RunGame.Stage
         // Update is called once per frame
         void Update()
         {
+            DamageTime += Time.deltaTime;
             time += Time.deltaTime;
             SoulTime += Time.deltaTime;
+            CatTime += Time.deltaTime;
             if (IsActive)
             {
                 // 転倒判定
@@ -169,15 +173,14 @@ namespace RunGame.Stage
                 animator.SetBool("isJump", false);
                 if (isSalt == true || isShikigami == true)
                 {
+                    
                     var velocity = rigidbody.velocity;
                     velocity.x = damageSpeed;
                     rigidbody.velocity = velocity;
-                    DamageTime += 1;
-                    if (DamageTime >= 400)
+                    if (DamageTime >= 4.0f)
                     {
                         isSalt = false;
                         isShikigami = false;
-                        DamageTime = 0;
                         animator.SetBool("isSalt", false);
                     }
                 }
@@ -211,9 +214,10 @@ namespace RunGame.Stage
                     // ジャンプ状態に設定
                     isGrounded = false;
                 }
+                // '右'キーが押された場合は右に人魂を投げる
                 else if(Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
                 {
-                    if (soul > 0 && SoulTime >= 5.0f)
+                    if (soul > 0 && SoulTime >= 0.3f)
                     {
                         soul--;
                         SoulTime = 0;
@@ -221,9 +225,10 @@ namespace RunGame.Stage
                         Instantiate(SoulRightPrefabs, transform.position, Quaternion.identity);
                     }
                 }
-                else if(Input.GetKeyDown(KeyCode.LeftArrow) && time >= 4.0f)
+                // '左'キーが押された場合は左に人魂を投げる
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) && time >= 4.0f)
                 {
-                    if (soul > 0 && SoulTime >= 5.0f)
+                    if (soul > 0 && SoulTime >= 0.3f)
                     {
                         soul--;
                         SoulTime = 0;
@@ -245,11 +250,60 @@ namespace RunGame.Stage
                     animator.SetBool("isTranspare", false);
                     animator.SetBool("isRightAttack", false);
                     animator.SetBool("isLeftAttack", false);
+                    if(isCat == true)
+                    {
+                        animator.SetBool("isPossession", true);
+                        if(CatTime > 3.0f)
+                        {
+                            isCat = false;
+                            animator.SetBool("isPossession", false);
+                        }
+                    }
                 }
             }
             // 空中状態の場合
             else
             {
+                if (isSalt == true || isShikigami == true)
+                {
+
+                    var velocity = rigidbody.velocity;
+                    velocity.x = damageSpeed;
+                    rigidbody.velocity = velocity;
+                    if (DamageTime >= 4.0f)
+                    {
+                        isSalt = false;
+                        isShikigami = false;
+                        animator.SetBool("isSalt", false);
+                    }
+                }
+                // '右'キーが押された場合は右に人魂を投げる
+                if (Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
+                {
+                    if (soul > 0 && SoulTime >= 0.3f)
+                    {
+                        soul--;
+                        SoulTime = 0;
+                        animator.SetBool("isRightAttack", true);
+                        Instantiate(SoulRightPrefabs, transform.position, Quaternion.identity);
+                    }
+                }
+                // '左'キーが押された場合は左に人魂を投げる
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) && time >= 4.0f)
+                {
+                    if (soul > 0 && SoulTime >= 0.3f)
+                    {
+                        soul--;
+                        SoulTime = 0;
+                        animator.SetBool("isLeftAttack", true);
+                        Instantiate(SoulLeftPrefabs, transform.position, Quaternion.identity);
+                    }
+                }
+                else
+                {
+                    animator.SetBool("isRightAttack", false);
+                    animator.SetBool("isLeftAttack", false);
+                }
                 animator.SetBool("isJump", true);
                 if (IsDash)
                 {
@@ -315,25 +369,29 @@ namespace RunGame.Stage
                 soul++;
                 // 取得したアイテムを削除
                 Destroy(collider.gameObject);
-            }// ゲームオーバー判定
-            if (collider.tag == "Exosist" || collider.tag == "Monster")
+            }
+            // ゲームオーバー判定
+            else if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Nurikabe" && isCat == false)
             {
                 speed = 0;
                 //animator.SetBool("isGameOver", true);
                 Instantiate(Prefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
-            }
+            }            
             // 塩ダメージ
             if (collider.tag == "Salt")
             { 
                 animator.SetBool("isSalt", true);
                 isSalt = true;
+                DamageTime = 0;
             }
             // 式神ダメージ
             else if (collider.tag == "Shikigami")
             {
                 animator.SetBool("isShikigami", true);
+                isShikigami = true;
+                DamageTime = 0;
             }
             // 結界と接触
             else if (collider.tag == "Kekkai" && isTranspare == false)
@@ -343,6 +401,13 @@ namespace RunGame.Stage
                 Instantiate(Prefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
+            }
+            // 猫と接触
+            if(collider.tag == "Cat")
+            {
+                isCat = true;
+                CatTime = 0.0f;
+                animator.SetBool("isPossession", true);
             }
         }
     }

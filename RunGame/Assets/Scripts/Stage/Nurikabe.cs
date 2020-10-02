@@ -6,6 +6,7 @@ namespace RunGame.Stage
 {
     public class Nurikabe : MonoBehaviour
     {
+        int Hp = 2;
         Transform target;
 
         new Rigidbody2D rigidbody;
@@ -25,9 +26,17 @@ namespace RunGame.Stage
         }
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.tag == "Exosist" || collider.tag == "SoulAttack")
+            if (collider.tag == "Exosist")
             {
                 Destroy(gameObject);
+            }
+            if(collider.tag == "SoulAttack")
+            {
+                Hp--;
+                if(Hp == 0)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

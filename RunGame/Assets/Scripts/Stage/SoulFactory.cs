@@ -8,7 +8,7 @@ namespace RunGame.Stage
     {
         public GameObject Prefabs;
 
-        float CreateTime = 5.0f;
+        float CreateTime = 3.0f;
         float CreateTimer = -3.0f;
         
         Transform target;
@@ -16,7 +16,7 @@ namespace RunGame.Stage
         // Start is called before the first frame update
         void Start()
         {
-            target = GameObject.FindGameObjectWithTag("Exosist").transform;
+            target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         // Update is called once per frame

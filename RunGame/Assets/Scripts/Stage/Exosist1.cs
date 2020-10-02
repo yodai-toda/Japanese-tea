@@ -56,7 +56,7 @@ namespace RunGame.Stage
             }
             else if (SoulTime < 3.0f)
             {
-                speed = 2;
+                speed = 3;
             }
             else if (speed != 0)
             {
@@ -70,11 +70,14 @@ namespace RunGame.Stage
         }
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            // ゲームオーバー判定
+            // 人魂と接触
             if (collider.tag == "SoulAttack")
             {
-                speed = 2;
-                SoulTime = 0.0f;
+                if(SoulTime > 3.0f)
+                {
+                    speed = 3;
+                    SoulTime = 0.0f;
+                }
             }
         }
     }
