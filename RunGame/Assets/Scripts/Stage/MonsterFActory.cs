@@ -19,7 +19,7 @@ namespace RunGame.Stage
         void Start()
         {
             CreateType = Random.Range(0.0f, 2.0f);
-            target = GameObject.FindGameObjectWithTag("Exosist").transform;
+            target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         // Update is called once per frame
