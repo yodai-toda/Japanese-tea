@@ -9,8 +9,9 @@ namespace RunGame.Stage
         public GameObject IttanMomenPrefabs;
         public GameObject NurikabePrefabs;
         public GameObject CatPrefabs;
+        public GameObject KarakasaPrefabs;
 
-        float CreateTime = 7.0f;
+        float CreateTime = 5.0f;
         float CreateTimer = -3.0f;
         float CreateType = 0.0f;
 
@@ -20,7 +21,7 @@ namespace RunGame.Stage
         // Start is called before the first frame update
         void Start()
         {
-            CreateType = Random.Range(0.0f, 2.0f);
+            CreateType = Random.Range(0.0f, 3.0f);
             target = GameObject.FindGameObjectWithTag("Player").transform;
             Target = GameObject.FindGameObjectWithTag("Respawn").transform;
         }
@@ -35,21 +36,20 @@ namespace RunGame.Stage
                 if(CreateTime < CreateTimer)
                 {
                     CreateTimer = 0.0f;
-                    CreateType = Random.Range(0.0f, 2.0f);
+                    CreateType = Random.Range(0.0f, 3.0f);
                     var position = target.position;
                     position.x = target.position.x + 20;
                     position.y = transform.position.y -1;
                     Instantiate(IttanMomenPrefabs, position, Quaternion.identity);
                 }
-
             }
             // 塗り壁
-            else if(CreateType >= 1.0f)
+            else if(CreateType >= 1.0f && CreateType < 2.0f)
             {
                 if (CreateTime < CreateTimer)
                 {
                     CreateTimer = 0.0f;
-                    CreateType = Random.Range(0.0f, 2.0f);
+                    CreateType = Random.Range(0.0f, 3.0f);
                     var position = target.position;
                     position.x = target.position.x + 20;
                     position.y = transform.position.y ;
@@ -58,6 +58,20 @@ namespace RunGame.Stage
                     Position.x = target.position.x + 10;
                     Position.y = Target.position.y;
                     Instantiate(CatPrefabs, Position, Quaternion.identity);
+                }
+            }
+            // 唐傘
+            else if (CreateType >= 2.0f)
+            {
+                if (CreateTime < CreateTimer)
+                {
+                    CreateTimer = 0.0f;
+                    CreateType = Random.Range(0.0f, 3.0f);
+                    var position = target.position;
+                    position.x = target.position.x + 20;
+                    position.y = transform.position.y -1;
+                    Instantiate(KarakasaPrefabs, position, Quaternion.identity);
+                    
                 }
             }
         }

@@ -270,7 +270,7 @@ MonoBehaviour:
   dashSpeed: 6
   damageSpeed: 2
   transpareSpeed: 3
-  jumpPower: 9.1
+  jumpPower: 8.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 512

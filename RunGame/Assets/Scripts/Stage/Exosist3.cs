@@ -39,18 +39,21 @@ namespace RunGame.Stage
             var velocity = rigidbody.velocity;
             velocity.x = speed;
             rigidbody.velocity = velocity;
-            if (time >= 5.0f && time <= 5.1f)
+            if (target != null)
             {
-                Animator.SetFloat("isKekkai", time);
-            }
-            if (time >= 5.8f)
-            {
-                time = 0.0f;
-                Animator.SetFloat("isKekkai", time);
-                var position = transform.position;
-                position.x = transform.position.x + 17;
-                position.y = transform.position.y;
-                Instantiate(Prefabs, position, Quaternion.identity);
+                if (time >= 5.0f && time <= 5.1f)
+                {
+                    Animator.SetFloat("isKekkai", time);
+                }
+                if (time >= 5.8f)
+                {
+                    time = 0.0f;
+                    Animator.SetFloat("isKekkai", time);
+                    var position = transform.position;
+                    position.x = transform.position.x + 17;
+                    position.y = transform.position.y;
+                    Instantiate(Prefabs, position, Quaternion.identity);
+                }
             }
             
             if (Starttime < 3.0f)

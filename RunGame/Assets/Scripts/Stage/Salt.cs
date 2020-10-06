@@ -31,7 +31,7 @@ namespace RunGame.Stage
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.tag == "Player" || collider.tag == "Monster" || collider.tag == "SoulAttack")
+            if (collider.tag == "Player" || collider.tag == "Monster" || collider.tag == "Nurikabe" || collider.tag == "SoulAttack")
             {
                 Destroy(gameObject);
             }

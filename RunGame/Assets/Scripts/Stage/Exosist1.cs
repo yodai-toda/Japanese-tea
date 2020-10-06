@@ -39,15 +39,18 @@ namespace RunGame.Stage
             var velocity = rigidbody.velocity;
             velocity.x = speed;
             rigidbody.velocity = velocity;
-            if(time >=  5.0f && time >= 5.1f)
+            if (target != null)
             {
-                Animator.SetFloat("Time", time);              
-            }
-            if (time >= 5.6f)
-            {
-                time = 0.0f;
-                Animator.SetFloat("Time", time);
-                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                if (time >= 5.0f && time >= 5.1f)
+                {
+                    Animator.SetFloat("Time", time);
+                }
+                if (time >= 5.6f)
+                {
+                    time = 0.0f;
+                    Animator.SetFloat("Time", time);
+                    Instantiate(Prefabs, transform.position, Quaternion.identity);
+                }
             }
 
             if (Starttime < 3.0f)

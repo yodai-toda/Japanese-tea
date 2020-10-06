@@ -172,8 +172,7 @@ namespace RunGame.Stage
             {
                 animator.SetBool("isJump", false);
                 if (isSalt == true || isShikigami == true)
-                {
-                    
+                {                    
                     var velocity = rigidbody.velocity;
                     velocity.x = damageSpeed;
                     rigidbody.velocity = velocity;
@@ -266,7 +265,6 @@ namespace RunGame.Stage
             {
                 if (isSalt == true || isShikigami == true)
                 {
-
                     var velocity = rigidbody.velocity;
                     velocity.x = damageSpeed;
                     rigidbody.velocity = velocity;
@@ -371,7 +369,7 @@ namespace RunGame.Stage
                 Destroy(collider.gameObject);
             }
             // ゲームオーバー判定
-            else if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Nurikabe" && isCat == false)
+            else if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Nurikabe" && isCat == false && isTranspare == false)
             {
                 speed = 0;
                 //animator.SetBool("isGameOver", true);
@@ -408,6 +406,7 @@ namespace RunGame.Stage
                 isCat = true;
                 CatTime = 0.0f;
                 animator.SetBool("isPossession", true);
+                Destroy(collider.gameObject);
             }
         }
     }
