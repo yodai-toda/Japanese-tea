@@ -11,6 +11,9 @@ namespace RunGame.Stage
     /// </summary>
     public class UiManager : MonoBehaviour
     {
+        public GameObject player;
+        public Player script;
+
         #region インスタンスへのstaticなアクセスポイント
         /// <summary>
         /// このクラスのインスタンスを取得します。
@@ -71,6 +74,24 @@ namespace RunGame.Stage
         }
         #endregion
 
+
+        #region 「人魂 × 00」表示用のUI
+        /// <summary>
+        /// 「人魂 × 00」表示用のUIを指定します。
+        /// </summary>
+        [SerializeField]
+        private Text SoulUI = null;
+
+        /// <summary>
+        /// 「人魂 × 00」UIの表示を更新します。
+        /// </summary>
+        private void UpdateSoulUI()
+        {
+            int SoulCount = script.soul;
+            SoulUI.text = SoulCount.ToString("00");
+        }
+        #endregion
+
         #region 「GameOver」UI
         public GameOverUI GameOver {
             get { return GetComponent<GameOverUI>(); }
@@ -80,14 +101,18 @@ namespace RunGame.Stage
         // Start is called before the first frame update
         void Start()
         {
+            player = GameObject.Find("Player");
+            script = player.GetComponent<Player>();
             HideMessage();
             UpdateTimeUI();
+            UpdateSoulUI();
         }
 
         // Update is called once per frame
         void Update()
         {
             UpdateTimeUI();
+            UpdateSoulUI();
         }
     }
 }

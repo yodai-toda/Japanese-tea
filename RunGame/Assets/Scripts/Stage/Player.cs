@@ -36,7 +36,7 @@ namespace RunGame.Stage
         private AudioClip soundOnDash = null;
         // 人魂の所持数を指定します
         [SerializeField]
-        private int soul = 0;
+        public int soul = 0;
 
         /// <summary>
         /// プレイ中の場合はtrue、ステージ開始前またはゲームオーバー時にはfalse
