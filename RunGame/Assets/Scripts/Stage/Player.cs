@@ -369,14 +369,21 @@ namespace RunGame.Stage
                 Destroy(collider.gameObject);
             }
             // ゲームオーバー判定
-            else if (collider.tag == "Exosist" || collider.tag == "Monster" || collider.tag == "Nurikabe" && isCat == false && isTranspare == false)
+            else if (collider.tag == "Exosist" || collider.tag == "Monster")
             {
                 speed = 0;
-                //animator.SetBool("isGameOver", true);
                 Instantiate(Prefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
-            }            
+            }
+            // 塗り壁衝突判定
+            else if(collider.tag == "Nurikabe" && isCat == false || collider.tag == "Nurikabe" && isTranspare == false)
+            {
+                speed = 0;
+                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Destroy(gameObject);
+                SceneController.Instance.GameOver();
+            }
             // 塩ダメージ
             if (collider.tag == "Salt")
             { 

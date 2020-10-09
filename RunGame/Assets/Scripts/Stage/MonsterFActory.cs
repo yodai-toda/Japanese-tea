@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RunGame.Stage
 {
-    public class MonsterFActory : MonoBehaviour
+    public class MonsterFactory : MonoBehaviour
     {
         public GameObject IttanMomenPrefabs;
         public GameObject NurikabePrefabs;
