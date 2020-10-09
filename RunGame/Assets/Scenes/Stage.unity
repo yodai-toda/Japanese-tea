@@ -636,7 +636,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!82 &519420030
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1419,6 +1419,8 @@ MonoBehaviour:
     type: 3}
   CatPrefabs: {fileID: 4871491146651546263, guid: 55fe165cf3f87a641aefcb5b2e920a67,
     type: 3}
+  KarakasaPrefabs: {fileID: 1611276732925115141, guid: 2146b189c9210404a878714049fbeb9e,
+    type: 3}
 --- !u!1 &1204071290 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7707037786211876415, guid: 968f947653cbb1049aeaca03882815a8,
@@ -1779,7 +1781,7 @@ PrefabInstance:
     - target: {fileID: 1611276732925115137, guid: 2146b189c9210404a878714049fbeb9e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4
+      value: 1.15
       objectReference: {fileID: 0}
     - target: {fileID: 1611276732925115137, guid: 2146b189c9210404a878714049fbeb9e,
         type: 3}
@@ -1825,6 +1827,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611276732925115137, guid: 2146b189c9210404a878714049fbeb9e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1611276732925115137, guid: 2146b189c9210404a878714049fbeb9e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 1611276732925115141, guid: 2146b189c9210404a878714049fbeb9e,
         type: 3}
