@@ -647,11 +647,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f357061b5d854b0499dffa495bc4d116, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -872,6 +872,47 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9048238282678360017, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048238282678360017, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048238282678360017, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048238283160158226, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: soundOnJump
+      value: 
+      objectReference: {fileID: 8300000, guid: 28c63b8cdc5f503489efadeacfac7b1c, type: 3}
+    - target: {fileID: 9048238283160158226, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: soundOnTranspare
+      value: 
+      objectReference: {fileID: 8300000, guid: 2a8311427d45c044bb4a3383af205cfd, type: 3}
+    - target: {fileID: 9048238283160158226, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: soundOnPossession
+      value: 
+      objectReference: {fileID: 8300000, guid: fb41660da1cf03c489daeaab8afd87b4, type: 3}
+    - target: {fileID: 9048238283160158226, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: soundOnSoul
+      value: 
+      objectReference: {fileID: 8300000, guid: 684de5e5adaa4584aa3018db33d7ed8e, type: 3}
+    - target: {fileID: 9048238283160158226, guid: 04ee8b71dcceef84eb66c02b3391418c,
+        type: 3}
+      propertyPath: GameOverPrefabs
+      value: 
+      objectReference: {fileID: 4353083138417054892, guid: a50384fe47b90174d966a91efe63478d,
+        type: 3}
     - target: {fileID: 9048238283160158229, guid: 04ee8b71dcceef84eb66c02b3391418c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1413,6 +1454,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c689408b5429194b8760f4a1be364d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IttanMomenPrefabs: {fileID: 9174222718669958295, guid: eec3121cf8e9d1a4aa14171dd93e320a,
+    type: 3}
+  NurikabePrefabs: {fileID: 6478242554705394673, guid: 2644a14ac44d8c54eae14525ac8869bc,
+    type: 3}
+  CatPrefabs: {fileID: 4871491146651546263, guid: 55fe165cf3f87a641aefcb5b2e920a67,
+    type: 3}
+  KarakasaPrefabs: {fileID: 1611276732925115141, guid: 2146b189c9210404a878714049fbeb9e,
+    type: 3}
 --- !u!1 &1246814654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1723,6 +1772,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 560169489546925245, guid: 968f947653cbb1049aeaca03882815a8,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -177
+      objectReference: {fileID: 0}
     - target: {fileID: 1902251858421484813, guid: 968f947653cbb1049aeaca03882815a8,
         type: 3}
       propertyPath: m_Text

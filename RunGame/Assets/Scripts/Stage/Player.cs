@@ -9,7 +9,7 @@ namespace RunGame.Stage
     /// </summary>
     public class Player : MonoBehaviour
     {
-        public GameObject Prefabs;
+        public GameObject GameOverPrefabs;
         public GameObject SoulRightPrefabs;
         public GameObject SoulLeftPrefabs;
 
@@ -33,7 +33,19 @@ namespace RunGame.Stage
         private LayerMask groundLayer = 0;
         // ダッシュの際のサウンドを指定します。
         [SerializeField]
-        private AudioClip soundOnDash = null;
+        private AudioClip soundOnDash = null;       
+        // ジャンプの際のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnJump = null;
+        // すり抜けの際のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnTranspare = null;
+        // 憑依の際のサウンドを指定します。        
+        [SerializeField]
+        private AudioClip soundOnPossession = null;
+        // 人魂の際のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnSoul = null;
         // 人魂の所持数を指定します
         [SerializeField]
         public int soul = 0;
@@ -64,11 +76,6 @@ namespace RunGame.Stage
                 {
                     // ダッシュアニメーションへ切り替え
                     animator.SetBool(dashId, true);
-                    // サウンド再生
-                    if (audioSource.isPlaying)
-                    {
-                        audioSource.Stop();
-                    }
                     audioSource.clip = soundOnDash;
                     audioSource.loop = true;
                     audioSource.Play();
@@ -77,12 +84,7 @@ namespace RunGame.Stage
                 else
                 {
                     // 通常アニメーションへ切り替え
-                    animator.SetBool(dashId, false);
-                    // サウンド停止
-                    if (audioSource.isPlaying)
-                    {
-                        audioSource.Stop();
-                    }
+                    animator.SetBool(dashId, false);                 
                 }
             }
         }
@@ -91,6 +93,7 @@ namespace RunGame.Stage
         bool isShikigami = false;
         float DamageTime = 0;
         bool isTranspare = false;
+        float TranspareTime = 4.0f;
         float time = 0;
         float SoulTime = 6;
         bool isCat = false;
@@ -137,6 +140,7 @@ namespace RunGame.Stage
         void Update()
         {
             DamageTime += Time.deltaTime;
+            TranspareTime += Time.deltaTime;
             time += Time.deltaTime;
             SoulTime += Time.deltaTime;
             CatTime += Time.deltaTime;
@@ -162,17 +166,21 @@ namespace RunGame.Stage
                 if (rigidbody.velocity.magnitude < 0.1f &&
                     !isGrounded && isTumbled)
                 {
-                    IsActive = false;
+                    rotationZ = 0;
                     SceneController.Instance.GameOver();
                 }
             }
-                        
+
             // 接地している場合
-            if (isGrounded && speed != 0)
-            {
+            if (isGrounded == true)
+            {                
                 animator.SetBool("isJump", false);
                 if (isSalt == true || isShikigami == true)
-                {                    
+                {
+                    if(audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
                     var velocity = rigidbody.velocity;
                     velocity.x = damageSpeed;
                     rigidbody.velocity = velocity;
@@ -183,18 +191,27 @@ namespace RunGame.Stage
                         animator.SetBool("isSalt", false);
                     }
                 }
-                // '下'キーが押し下げられている場合はすり抜け処理
-                if (Input.GetKey(KeyCode.DownArrow) && IsDash == false && time >= 4.0f)
+                // '下'キーが押された場合はすり抜け処理
+                if (Input.GetKeyDown(KeyCode.DownArrow) && IsDash == false && time >= 4.0f)
                 {
                     isTranspare = true;
+                    TranspareTime = 0.0f;
                     var velocity = rigidbody.velocity;
                     velocity.x = transpareSpeed;
                     rigidbody.velocity = velocity;
                     animator.SetBool("isTranspare", true);
+                    if (audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
+                    audioSource.clip = soundOnTranspare;
+                    audioSource.loop = false;
+                    audioSource.Play();
                 }
                 // 'Enter'キーが押し下げられている場合はダッシュ処理
                 else if (Input.GetKey(KeyCode.Return) && isSalt == false && time >= 4.0f)
                 {
+                    isTranspare = false;
                     // x軸方向の移動
                     var velocity = rigidbody.velocity;
                     velocity.x = dashSpeed;
@@ -205,23 +222,39 @@ namespace RunGame.Stage
                         IsDash = true;
                     }
                 }
+                // 'Enter'キーが離された場合はダッシュSE停止処理
+                else if (Input.GetKeyUp(KeyCode.Return) && time >= 4.0f)
+                {
+                    if (audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
+                }
                 // '上'キーが押された場合はジャンプ処理
                 else if (Input.GetKeyDown(KeyCode.UpArrow) && time >= 4.0f)
                 {
+                    isTranspare = false;
                     IsDash = false;
-                    rigidbody.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                    rigidbody.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);                                        
+                    audioSource.clip = soundOnJump;
+                    audioSource.loop = false;
+                    audioSource.Play();
                     // ジャンプ状態に設定
                     isGrounded = false;
                 }
                 // '右'キーが押された場合は右に人魂を投げる
-                else if(Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
+                else if (Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
                 {
                     if (soul > 0 && SoulTime >= 0.3f)
                     {
+                        isTranspare = false;
                         soul--;
                         SoulTime = 0;
                         animator.SetBool("isRightAttack", true);
                         Instantiate(SoulRightPrefabs, transform.position, Quaternion.identity);
+                        audioSource.clip = soundOnSoul;
+                        audioSource.loop = false;
+                        audioSource.Play();
                     }
                 }
                 // '左'キーが押された場合は左に人魂を投げる
@@ -229,39 +262,65 @@ namespace RunGame.Stage
                 {
                     if (soul > 0 && SoulTime >= 0.3f)
                     {
+                        isTranspare = false;
                         soul--;
                         SoulTime = 0;
                         animator.SetBool("isLeftAttack", true);
-                        Instantiate(SoulLeftPrefabs, transform.position, Quaternion.identity);
+                        Instantiate(SoulLeftPrefabs, transform.position, Quaternion.identity);                        
+                        audioSource.clip = soundOnSoul;
+                        audioSource.loop = false;
+                        audioSource.Play();
                     }
                 }
                 else
                 {
-                    IsDash = false;
-                    isTranspare = false;
-                    // x軸方向の移動
-                    if (isSalt == false)
+                    IsDash = false;                    
+                    if (isTranspare == true)
+                    {
+                        var velocity = rigidbody.velocity;
+                        velocity.x = transpareSpeed;
+                        rigidbody.velocity = velocity;
+                       if (TranspareTime >= 1.5f)
+                        {
+                            isTranspare = false;                            
+                        }
+                    }
+                    else if(isTranspare == false)
+                    {
+                        animator.SetBool("isTranspare", false);
+                    }    
+                    
+                    if (isSalt == false && isTranspare == false)
                     {
                         var velocity = rigidbody.velocity;
                         velocity.x = speed;
                         rigidbody.velocity = velocity;
                     }
-                    animator.SetBool("isTranspare", false);
                     animator.SetBool("isRightAttack", false);
                     animator.SetBool("isLeftAttack", false);
-                    if(isCat == true)
-                    {
-                        animator.SetBool("isPossession", true);
-                        if(CatTime > 3.0f)
+                    if (isCat == true)
+                    {                        
+                        if (CatTime < 0.1f)
                         {
-                            isCat = false;
-                            animator.SetBool("isPossession", false);
+                            if (audioSource.isPlaying)
+                            {
+                                audioSource.Stop();
+                            }
+                            audioSource.clip = soundOnPossession;
+                            audioSource.loop = false;
+                            audioSource.Play();
                         }
-                    }
+                        animator.SetBool("isPossession", true);
+                        if (CatTime > 3.0f)
+                        {                            
+                            isCat = false;
+                            animator.SetBool("isPossession", false);                            
+                        }
+                    }                    
                 }
             }
             // 空中状態の場合
-            else
+            else if(isGrounded ==false)
             {
                 if (isSalt == true || isShikigami == true)
                 {
@@ -284,6 +343,9 @@ namespace RunGame.Stage
                         SoulTime = 0;
                         animator.SetBool("isRightAttack", true);
                         Instantiate(SoulRightPrefabs, transform.position, Quaternion.identity);
+                        audioSource.clip = soundOnSoul;
+                        audioSource.loop = false;
+                        audioSource.Play();
                     }
                 }
                 // '左'キーが押された場合は左に人魂を投げる
@@ -295,6 +357,9 @@ namespace RunGame.Stage
                         SoulTime = 0;
                         animator.SetBool("isLeftAttack", true);
                         Instantiate(SoulLeftPrefabs, transform.position, Quaternion.identity);
+                        audioSource.clip = soundOnSoul;
+                        audioSource.loop = false;
+                        audioSource.Play();
                     }
                 }
                 else
@@ -303,13 +368,13 @@ namespace RunGame.Stage
                     animator.SetBool("isLeftAttack", false);
                 }
                 animator.SetBool("isJump", true);
+                
                 if (IsDash)
                 {
                     IsDash = false;
                 }
             }
         }
-
         /// <summary>
         /// 固定フレームレートで実行されるフレーム更新処理
         /// </summary>
@@ -372,7 +437,7 @@ namespace RunGame.Stage
             else if (collider.tag == "Exosist" || collider.tag == "Monster")
             {
                 speed = 0;
-                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Instantiate(GameOverPrefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
             }
@@ -380,7 +445,7 @@ namespace RunGame.Stage
             else if(collider.tag == "Nurikabe" && isCat == false || collider.tag == "Nurikabe" && isTranspare == false)
             {
                 speed = 0;
-                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Instantiate(GameOverPrefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
             }
@@ -403,7 +468,7 @@ namespace RunGame.Stage
             {
                 speed = 0;
                 //animator.SetBool("isGameOver", true);
-                Instantiate(Prefabs, transform.position, Quaternion.identity);
+                Instantiate(GameOverPrefabs, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 SceneController.Instance.GameOver();
             }

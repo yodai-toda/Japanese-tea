@@ -54,7 +54,7 @@ namespace RunGame.Stage
             // ステージ用のBGMを再生
             AudioClip clip = null;
             // bgmを読み込む
-            clip = Resources.Load<AudioClip>("bgm_01");
+            clip = Resources.Load<AudioClip>("PerituneMaterial_Michikusa_loop");
             
             var bgmAudio = Camera.main.GetComponent<AudioSource>();
             bgmAudio.clip = clip;
