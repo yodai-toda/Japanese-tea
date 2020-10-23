@@ -19,9 +19,12 @@ namespace RunGame.Stage
         // ダッシュ時の移動速度を指定します。
         [SerializeField]
         private float dashSpeed = 8;
-        // 塩と式神時の移動速度を指定します。
+        // 塩時の移動速度を指定します。
         [SerializeField]
-        private float damageSpeed = 3;
+        private float saltSpeed = 3;
+        // 式神時の移動速度を指定します。
+        [SerializeField]
+        private float shikigamiSpeed = 0;
         // すり抜け使用時の移動速度を指定します。
         [SerializeField]
         private float transpareSpeed = 3;
@@ -91,7 +94,8 @@ namespace RunGame.Stage
         bool isDash = false;
         bool isSalt = false;
         bool isShikigami = false;
-        float DamageTime = 0;
+        float SaltTime = 0;
+        float ShikigamiTime = 0;
         bool isTranspare = false;
         float TranspareTime = 4.0f;
         float time = 0;
@@ -139,7 +143,8 @@ namespace RunGame.Stage
         // Update is called once per frame
         void Update()
         {
-            DamageTime += Time.deltaTime;
+            SaltTime += Time.deltaTime;
+            ShikigamiTime += Time.deltaTime;
             TranspareTime += Time.deltaTime;
             time += Time.deltaTime;
             SoulTime += Time.deltaTime;
@@ -175,20 +180,34 @@ namespace RunGame.Stage
             if (isGrounded == true)
             {                
                 animator.SetBool("isJump", false);
-                if (isSalt == true || isShikigami == true)
+                if (isSalt == true)
                 {
                     if(audioSource.isPlaying)
                     {
                         audioSource.Stop();
                     }
                     var velocity = rigidbody.velocity;
-                    velocity.x = damageSpeed;
+                    velocity.x = saltSpeed;
                     rigidbody.velocity = velocity;
-                    if (DamageTime >= 4.0f)
+                    if (SaltTime >= 4.0f)
                     {
-                        isSalt = false;
-                        isShikigami = false;
+                        isSalt = false;                        
                         animator.SetBool("isSalt", false);
+                    }
+                }
+                else if (isShikigami == true)
+                {
+                    if (audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
+                    var velocity = rigidbody.velocity;
+                    velocity.x = shikigamiSpeed;
+                    rigidbody.velocity = velocity;
+                    if (ShikigamiTime >= 0.5f)
+                    {
+                        isShikigami = false;
+                        animator.SetBool("isShikigami", false);
                     }
                 }
                 // '下'キーが押された場合はすり抜け処理
@@ -209,7 +228,7 @@ namespace RunGame.Stage
                     audioSource.Play();
                 }
                 // 'Enter'キーが押し下げられている場合はダッシュ処理
-                else if (Input.GetKey(KeyCode.Return) && isSalt == false && time >= 4.0f)
+                else if (Input.GetKey(KeyCode.Return) && isSalt == false && isShikigami == false && time >= 4.0f)
                 {
                     isTranspare = false;
                     // x軸方向の移動
@@ -290,7 +309,7 @@ namespace RunGame.Stage
                         animator.SetBool("isTranspare", false);
                     }    
                     
-                    if (isSalt == false && isTranspare == false)
+                    if (isSalt == false && isShikigami == false && isTranspare == false)
                     {
                         var velocity = rigidbody.velocity;
                         velocity.x = speed;
@@ -322,16 +341,26 @@ namespace RunGame.Stage
             // 空中状態の場合
             else if(isGrounded ==false)
             {
-                if (isSalt == true || isShikigami == true)
+                if (isSalt == true)
                 {
                     var velocity = rigidbody.velocity;
-                    velocity.x = damageSpeed;
+                    velocity.x = saltSpeed;
                     rigidbody.velocity = velocity;
-                    if (DamageTime >= 4.0f)
+                    if (SaltTime >= 4.0f)
                     {
                         isSalt = false;
-                        isShikigami = false;
                         animator.SetBool("isSalt", false);
+                    }
+                }
+                else if (isShikigami == true)
+                {
+                    var velocity = rigidbody.velocity;
+                    velocity.x = shikigamiSpeed;
+                    rigidbody.velocity = velocity;                    
+                    if (ShikigamiTime >= 0.5f)
+                    {
+                        isShikigami = false;
+                        animator.SetBool("isShikigami", false);
                     }
                 }
                 // '右'キーが押された場合は右に人魂を投げる
@@ -454,14 +483,14 @@ namespace RunGame.Stage
             { 
                 animator.SetBool("isSalt", true);
                 isSalt = true;
-                DamageTime = 0;
+                SaltTime = 0;
             }
             // 式神ダメージ
             else if (collider.tag == "Shikigami")
             {
                 animator.SetBool("isShikigami", true);
                 isShikigami = true;
-                DamageTime = 0;
+                ShikigamiTime = 0;
             }
             // 結界と接触
             else if (collider.tag == "Kekkai" && isTranspare == false)

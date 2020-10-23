@@ -10,18 +10,28 @@ namespace RunGame.Stage
         float time = 0.0f;
         float Starttime = 0.0f;
         float SoulTime = 5.0f;
+        int GameOverCount = 0;
 
         [SerializeField]
         private float speed = 4;
+        // 結界出現時のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnKekkai = null;
+        // 除霊した時のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnJorei = null;
         Transform target;
-        
+
         Animator Animator;
+        // サウンドエフェクト再生用のAudioSource
+        AudioSource audioSource;
 
 
         new Rigidbody2D rigidbody;
         void Start()
         {
             Animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
             target = GameObject.FindGameObjectWithTag("Player").transform;
             // 事前にコンポーネントを参照
             rigidbody = GetComponent<Rigidbody2D>();
@@ -44,6 +54,9 @@ namespace RunGame.Stage
                 if (time >= 5.0f && time <= 5.1f)
                 {
                     Animator.SetFloat("isKekkai", time);
+                    audioSource.clip = soundOnKekkai;
+                    audioSource.loop = false;
+                    audioSource.Play();
                 }
                 if (time >= 5.8f)
                 {
@@ -55,24 +68,31 @@ namespace RunGame.Stage
                     Instantiate(Prefabs, position, Quaternion.identity);
                 }
             }
-            
+
             if (Starttime < 3.0f)
             {
                 speed = 6;
             }
-            else if(SoulTime < 3.0f)
+            else if (SoulTime < 3.0f)
             {
                 speed = 3;
             }
-            else if(speed != 0)
+            else if (speed != 0)
             {
                 speed = 4;
             }
-            
-            if(target == null)
+            if (target == null && GameOverCount == 0)
             {
+                GameOverCount++;
                 speed = 0;
                 Animator.SetBool("Jorei", true);
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+                audioSource.clip = soundOnJorei;
+                audioSource.loop = false;
+                audioSource.Play();
             }
         }
         private void OnTriggerEnter2D(Collider2D collider)

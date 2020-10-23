@@ -163,7 +163,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bb12485cddd7eee4eb0ebb425a257757, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -261,19 +261,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021b646b9c6ca0f41a6b7430ffd1be6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefabs: {fileID: 4353083138417054892, guid: a50384fe47b90174d966a91efe63478d, type: 3}
+  GameOverPrefabs: {fileID: 4353083138417054892, guid: a50384fe47b90174d966a91efe63478d,
+    type: 3}
   SoulRightPrefabs: {fileID: 2711354392277508760, guid: 1e0e2255e0fe39148aecb4402cd838ce,
     type: 3}
   SoulLeftPrefabs: {fileID: 411827191851885148, guid: 074f291943390ef4aa6dee1d699f298f,
     type: 3}
   speed: 4
   dashSpeed: 6
-  damageSpeed: 2
+  saltSpeed: 3
+  shikigamiSpeed: 3
   transpareSpeed: 3
   jumpPower: 8.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
   soundOnDash: {fileID: 8300000, guid: bb12485cddd7eee4eb0ebb425a257757, type: 3}
+  soundOnJump: {fileID: 8300000, guid: 28c63b8cdc5f503489efadeacfac7b1c, type: 3}
+  soundOnTranspare: {fileID: 8300000, guid: 2a8311427d45c044bb4a3383af205cfd, type: 3}
+  soundOnPossession: {fileID: 8300000, guid: fb41660da1cf03c489daeaab8afd87b4, type: 3}
+  soundOnSoul: {fileID: 8300000, guid: 684de5e5adaa4584aa3018db33d7ed8e, type: 3}
   soul: 5
   isGrounded: 0

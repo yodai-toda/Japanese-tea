@@ -7,7 +7,7 @@ namespace RunGame.Stage
     public class Salt : MonoBehaviour
     {
         [SerializeField]
-        private float speed = 6;
+        private float speed = 10;
         Transform target;
 
         new Rigidbody2D rigidbody;

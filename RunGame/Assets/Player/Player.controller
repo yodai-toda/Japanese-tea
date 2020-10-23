@@ -58,7 +58,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shikigami
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6988865944746344162}
@@ -884,7 +884,7 @@ AnimatorStateMachine:
     m_Position: {x: 620, y: 730, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8208924350014601916}
-    m_Position: {x: 340, y: 690, z: 0}
+    m_Position: {x: 330, y: 690, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2303009835676658101}
     m_Position: {x: 280, y: 20, z: 0}

@@ -10,18 +10,28 @@ namespace RunGame.Stage
         float time = 0.0f;
         float Starttime = 0.0f;
         float SoulTime = 5.0f;
+        int GameOverCount = 0;
 
         [SerializeField]
         private float speed = 4;
+        // 塩を投げる際のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnSalt = null;
+        // 除霊した時のサウンドを指定します。
+        [SerializeField]
+        private AudioClip soundOnJorei = null;
         Transform target;
 
         Animator Animator;
-       
+        // サウンドエフェクト再生用のAudioSource
+        AudioSource audioSource;
+
 
         new Rigidbody2D rigidbody;
         void Start()
         {
             Animator = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>();
             target = GameObject.FindGameObjectWithTag("Player").transform;
             // 事前にコンポーネントを参照
             rigidbody = GetComponent<Rigidbody2D>();
@@ -44,6 +54,9 @@ namespace RunGame.Stage
                 if (time >= 5.0f && time >= 5.1f)
                 {
                     Animator.SetFloat("Time", time);
+                    audioSource.clip = soundOnSalt;
+                    audioSource.loop = false;
+                    audioSource.Play();
                 }
                 if (time >= 5.6f)
                 {
@@ -65,10 +78,18 @@ namespace RunGame.Stage
             {
                 speed = 4;
             }
-            if (target == null)
+            if (target == null && GameOverCount == 0)
             {
+                GameOverCount++;
                 speed = 0;
                 Animator.SetBool("Jorei", true);
+                if(audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+                audioSource.clip = soundOnJorei;
+                audioSource.loop = false;
+                audioSource.Play();
             }
         }
         private void OnTriggerEnter2D(Collider2D collider)
