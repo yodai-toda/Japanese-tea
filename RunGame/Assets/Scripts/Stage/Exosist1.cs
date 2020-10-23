@@ -103,6 +103,11 @@ namespace RunGame.Stage
                     SoulTime = 0.0f;
                 }
             }
+            // 人魂アイテムと接触
+            if (collider.tag == "item")
+            {
+                Destroy(collider.gameObject);
+            }
         }
     }
 }
