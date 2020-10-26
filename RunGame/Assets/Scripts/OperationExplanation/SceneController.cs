@@ -9,13 +9,20 @@ namespace RunGame.SelectStage
     /// </summary>
     public class SceneController : MonoBehaviour
     {
+        int Count = 0;
         // Update is called once per frame
         void Update() {
             // 「Enter」キーが押された場合
             if (Input.GetKeyUp(KeyCode.Space)) {
-                // 『ステージ画面』へシーン遷移
-                SceneManager.LoadScene("Stage");
-                return;
+
+                Count++;
+                if (Count > 1)
+                {
+                    // 『ステージ画面』へシーン遷移
+                    SceneManager.LoadScene("Stage");
+                    return;
+                }
+               
             }
             
         }
