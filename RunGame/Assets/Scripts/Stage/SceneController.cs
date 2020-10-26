@@ -14,7 +14,8 @@ namespace RunGame.Stage
         /// <summary>
         /// このクラスのインスタンスを取得します。
         /// </summary>
-        public static SceneController Instance {
+        public static SceneController Instance
+        {
             get { return instance; }
         }
         static SceneController instance = null;
@@ -27,17 +28,9 @@ namespace RunGame.Stage
             instance = this;
         }
         #endregion
-      
-        /// <summary>
-        /// ステージ開始からの経過時間(秒)を取得します。
-        /// </summary>
-        public float PlayTime { get; private set; }
-        //public float PlayTime {
-        //    get { return playTime; }
-        //    private set { playTime = value; }
-        //}
-        //float playTime = 0;
 
+        public Vector3 FirstPos;
+        public Vector3 Distance;        
         // 起動しているOnPlay()コルーチン
         Coroutine playState = null;
         // 外部のゲームオブジェクトの参照変数
@@ -50,12 +43,12 @@ namespace RunGame.Stage
         {
             // 他のゲームオブジェクトを参照
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-                        
+            FirstPos = player.transform.position;
             // ステージ用のBGMを再生
             AudioClip clip = null;
             // bgmを読み込む
             clip = Resources.Load<AudioClip>("PerituneMaterial_Michikusa_loop");
-            
+
             var bgmAudio = Camera.main.GetComponent<AudioSource>();
             bgmAudio.clip = clip;
             bgmAudio.Play();
@@ -105,38 +98,23 @@ namespace RunGame.Stage
 
             while (true)
             {
-                PlayTime += Time.deltaTime;
-
-/*#if UNITY_EDITOR
-                // 「Enter」キーが押された場合『リザルト画面』へ
-                if (Input.GetKeyUp(KeyCode.Return))
-                {
-                    StageClear();
-                    break;
-                }
-                // 'O'キーが押された場合「GameOver」を表示
-                else if (Input.GetKeyUp(KeyCode.O))
-                {
-                    GameOver();
-                    break;
-                }
-#endif*/
+                Distance = player.transform.position - FirstPos;                
+                /*#if UNITY_EDITOR
+                                // 「Enter」キーが押された場合『リザルト画面』へ
+                                if (Input.GetKeyUp(KeyCode.Return))
+                                {
+                                    StageClear();
+                                    break;
+                                }
+                                // 'O'キーが押された場合「GameOver」を表示
+                                else if (Input.GetKeyUp(KeyCode.O))
+                                {
+                                    GameOver();
+                                    break;
+                                }
+                #endif*/
                 yield return null;
             }
-        }
-
-        /// <summary>
-        /// ステージをクリアーさせます。
-        /// </summary>
-        public void StageClear()
-        {
-            // 現在のコルーチンを停止
-            if (playState != null)
-            {
-                StopCoroutine(playState);
-            }
-
-            player.IsActive = false;           
         }
 
         /// <summary>
@@ -152,6 +130,8 @@ namespace RunGame.Stage
 
             player.IsActive = false;
             UiManager.Instance.GameOver.Show();
-        }        
+        }
     }
 }
+
+

@@ -12,7 +12,8 @@ namespace RunGame
         #region シングルトンインスタンス
 
         [RuntimeInitializeOnLoadMethod]
-        private static void CreateInstance() {
+        private static void CreateInstance()
+        {
             // Resourcesからプレハブを読み込む
             var prefab = Resources.Load<GameObject>("GameController");
             Instantiate(prefab);
@@ -21,8 +22,10 @@ namespace RunGame
         /// <summary>
         /// このクラスのインスタンスを取得します。
         /// </summary>
-        public static GameController Instance {
-            get {
+        public static GameController Instance
+        {
+            get
+            {
                 return instance;
             }
         }
@@ -31,9 +34,11 @@ namespace RunGame
         /// <summary>
         /// Start()の実行より先行して処理したい内容を記述します。
         /// </summary>
-        void Awake() {
+        void Awake()
+        {
             // 初回作成時
-            if (instance == null) {
+            if (instance == null)
+            {
                 instance = this;
                 // シーンをまたいで削除されないように設定
                 DontDestroyOnLoad(gameObject);
@@ -41,19 +46,25 @@ namespace RunGame
                 Load();
             }
             // 2個目以降の作成時
-            else {
+            else
+            {
                 Destroy(gameObject);
             }
         }
 
-        #endregion
+        #endregion        
+        GameObject Player;
+        RunGame.Stage.Player script;
+        public int Soul = 0;
 
         /// <summary>
         /// ベストタイムを取得または設定します。
         /// </summary>
-        public float BestTime {
+        public float BestTime
+        {
             get { return bestTime; }
-            set {
+            set
+            {
                 bestTime = value;
                 Save();
             }
@@ -64,10 +75,13 @@ namespace RunGame
         [SerializeField]
         private float bestTime = 60;
 
+        public Vector3 GameOverDistance;
+
         /// <summary>
         /// ステージ名を取得します。
         /// </summary>
-        public string[] StageNames {
+        public string[] StageNames
+        {
             get { return stageNames; }
         }
         /// <summary>
@@ -83,7 +97,8 @@ namespace RunGame
         /// <summary>
         /// GameControllerが破棄される場合に呼び出されます。
         /// </summary>
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             Save();
         }
 
@@ -93,21 +108,39 @@ namespace RunGame
         /// <summary>
         /// ゲームデータを読込みます。
         /// </summary>
-        private void Load() {
+        private void Load()
+        {
             BestTime = PlayerPrefs.GetFloat(bestTimeKey, BestTime);
         }
 
         /// <summary>
         /// ゲームデータを保存します。
         /// </summary>
-        public void Save() {
+        public void Save()
+        {
             PlayerPrefs.SetFloat(bestTimeKey, BestTime);
             PlayerPrefs.Save();
         }
 
-        // Update is called once per frame
-        void Update() {
+        void Start()
+        {
+            Player = GameObject.Find("Player");
+            script = Player.GetComponent<Stage.Player>();
 
+
+        }
+        // Update is called once per frame
+        void Update()
+        {
+            if (Player != null)
+            {           
+                GameOverDistance = RunGame.Stage.SceneController.Instance.Distance;
+                if(GameOverDistance[0] >= 10000)
+                {
+                    GameOverDistance[0] = 9999;
+                }
+                Soul = script.soul;
+            }
         }
     }
 }

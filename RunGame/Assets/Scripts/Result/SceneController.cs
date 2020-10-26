@@ -12,31 +12,31 @@ namespace RunGame.Result
         /// <summary>
         /// クリアータイムを取得または設定します。
         /// </summary>
-        public static float ClearTime {
-            get { return clearTime; }
-            set { clearTime = value; }
+        public static float Distance {
+            get { return distance; }
+            set { distance = value; }
         }
-        private static float clearTime = 99.99f;
+        private static float distance = 9999.99f;
 
         /// <summary>
         /// クリアータイム表示用のUIを指定します。
         /// </summary>
         [SerializeField]
-        private GameObject clearTimeUI = null;
+        private GameObject DistanceUI = null;
 
         /// <summary>
         /// ベストタイム表示用のUIを指定します。
         /// </summary>
         [SerializeField]
-        private GameObject bestTimeUI = null;
+        private GameObject SoulUI = null;
 
         // Start is called before the first frame update
         void Start() {
             // UIを更新
-            clearTimeUI.GetComponentInChildren<Text>().text =
-                ClearTime.ToString("00.00");
-            bestTimeUI.GetComponentInChildren<Text>().text =
-                GameController.Instance.BestTime.ToString("00.00");
+            DistanceUI.GetComponentInChildren<Text>().text =
+                GameController.Instance.GameOverDistance.ToString("0000");
+            SoulUI.GetComponentInChildren<Text>().text =
+                GameController.Instance.Soul.ToString("00");
         }
 
         // Update is called once per frame

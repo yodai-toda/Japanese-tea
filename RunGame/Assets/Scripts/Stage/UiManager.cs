@@ -11,14 +11,15 @@ namespace RunGame.Stage
     /// </summary>
     public class UiManager : MonoBehaviour
     {
-        public GameObject player;
-        public Player script;
+        GameObject player;
+        Player script;
 
         #region インスタンスへのstaticなアクセスポイント
         /// <summary>
         /// このクラスのインスタンスを取得します。
         /// </summary>
-        public static UiManager Instance {
+        public static UiManager Instance
+        {
             get { return instance; }
         }
         static UiManager instance = null;
@@ -58,19 +59,19 @@ namespace RunGame.Stage
         }
         #endregion
 
-        #region 「TIME: 00.00」表示用のUI
+        #region 「きょり: 0000」表示用のUI
         /// <summary>
-        /// 「TIME: 00.00」表示用のUIを指定します。
+        /// 「きょり: 0000」表示用のUIを指定します。
         /// </summary>
         [SerializeField]
-        private Text timeUI = null;
+        private Text DistanceUI = null;
 
         /// <summary>
         /// 「TIME: 00.00」UIの表示を更新します。
         /// </summary>
-        private void UpdateTimeUI()
+        private void UpdateDistanceUI()
         {
-            timeUI.text = SceneController.Instance.PlayTime.ToString("00.00");
+            DistanceUI.text = SceneController.Instance.Distance.ToString("0000");
         }
         #endregion
 
@@ -88,12 +89,13 @@ namespace RunGame.Stage
         private void UpdateSoulUI()
         {
             int SoulCount = script.soul;
-            SoulUI.text = SoulCount.ToString("00");
+            SoulUI.text = SoulCount.ToString(" 00");
         }
         #endregion
 
         #region 「GameOver」UI
-        public GameOverUI GameOver {
+        public GameOverUI GameOver
+        {
             get { return GetComponent<GameOverUI>(); }
         }
         #endregion
@@ -104,14 +106,14 @@ namespace RunGame.Stage
             player = GameObject.Find("Player");
             script = player.GetComponent<Player>();
             HideMessage();
-            UpdateTimeUI();
+            UpdateDistanceUI();
             UpdateSoulUI();
         }
 
         // Update is called once per frame
         void Update()
         {
-            UpdateTimeUI();
+            UpdateDistanceUI();
             UpdateSoulUI();
         }
     }

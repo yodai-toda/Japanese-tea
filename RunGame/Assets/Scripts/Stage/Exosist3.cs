@@ -53,10 +53,7 @@ namespace RunGame.Stage
             {
                 if (time >= 5.0f && time <= 5.1f)
                 {
-                    Animator.SetFloat("isKekkai", time);
-                    audioSource.clip = soundOnKekkai;
-                    audioSource.loop = false;
-                    audioSource.Play();
+                    Animator.SetFloat("isKekkai", time);                    
                 }
                 if (time >= 5.8f)
                 {
@@ -66,6 +63,9 @@ namespace RunGame.Stage
                     position.x = transform.position.x + 17;
                     position.y = transform.position.y;
                     Instantiate(Prefabs, position, Quaternion.identity);
+                    audioSource.clip = soundOnKekkai;
+                    audioSource.loop = false;
+                    audioSource.Play();
                 }
             }
 

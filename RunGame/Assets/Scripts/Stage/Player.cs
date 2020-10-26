@@ -204,14 +204,14 @@ namespace RunGame.Stage
                     var velocity = rigidbody.velocity;
                     velocity.x = shikigamiSpeed;
                     rigidbody.velocity = velocity;
-                    if (ShikigamiTime >= 0.5f)
+                    if (ShikigamiTime >= 1.0f)
                     {
                         isShikigami = false;
                         animator.SetBool("isShikigami", false);
                     }
                 }
                 // '下'キーが押された場合はすり抜け処理
-                if (Input.GetKeyDown(KeyCode.DownArrow) && IsDash == false && time >= 4.0f)
+                if (Input.GetKeyDown(KeyCode.DownArrow) && IsDash == false && isShikigami == false && time >= 4.0f)
                 {
                     isTranspare = true;
                     TranspareTime = 0.0f;
@@ -250,7 +250,7 @@ namespace RunGame.Stage
                     }
                 }
                 // '上'キーが押された場合はジャンプ処理
-                else if (Input.GetKeyDown(KeyCode.UpArrow) && time >= 4.0f)
+                else if (Input.GetKeyDown(KeyCode.UpArrow) && isShikigami == false && time >= 4.0f)
                 {
                     isTranspare = false;
                     IsDash = false;
@@ -262,7 +262,7 @@ namespace RunGame.Stage
                     isGrounded = false;
                 }
                 // '右'キーが押された場合は右に人魂を投げる
-                else if (Input.GetKeyDown(KeyCode.RightArrow) && time >= 4.0f)
+                else if (Input.GetKeyDown(KeyCode.RightArrow) && isShikigami == false && time >= 4.0f)
                 {
                     if (soul > 0 && SoulTime >= 0.3f)
                     {
@@ -277,7 +277,7 @@ namespace RunGame.Stage
                     }
                 }
                 // '左'キーが押された場合は左に人魂を投げる
-                else if (Input.GetKeyDown(KeyCode.LeftArrow) && time >= 4.0f)
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) && isShikigami == false && time >= 4.0f)
                 {
                     if (soul > 0 && SoulTime >= 0.3f)
                     {
@@ -357,7 +357,7 @@ namespace RunGame.Stage
                     var velocity = rigidbody.velocity;
                     velocity.x = shikigamiSpeed;
                     rigidbody.velocity = velocity;                    
-                    if (ShikigamiTime >= 0.5f)
+                    if (ShikigamiTime >= 1.0f)
                     {
                         isShikigami = false;
                         animator.SetBool("isShikigami", false);
