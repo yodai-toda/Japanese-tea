@@ -42,8 +42,7 @@ namespace RunGame.Stage
         void Start()
         {
             // 他のゲームオブジェクトを参照
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-            FirstPos = player.transform.position;
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();           
             // ステージ用のBGMを再生
             AudioClip clip = null;
             // bgmを読み込む
@@ -79,6 +78,7 @@ namespace RunGame.Stage
             yield return new WaitForSeconds(showTimeout);
             UiManager.Instance.HideMessage();
             yield return new WaitForSeconds(1 - showTimeout);
+            FirstPos = player.transform.position;
 
             UiManager.Instance.ShowMessage("GO!");
 

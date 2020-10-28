@@ -34,9 +34,9 @@ namespace RunGame.Result
         void Start() {
             // UIを更新
             DistanceUI.GetComponentInChildren<Text>().text =
-                GameController.Instance.GameOverDistance[0].ToString("0000");
+                GameController.Instance.GameOverDistance[0].ToString("0");
             SoulUI.GetComponentInChildren<Text>().text =
-                GameController.Instance.Soul.ToString("00");
+                GameController.Instance.Soul.ToString("0");
         }
 
         // Update is called once per frame
