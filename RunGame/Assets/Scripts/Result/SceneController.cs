@@ -19,16 +19,22 @@ namespace RunGame.Result
         private static float distance = 9999.99f;
 
         /// <summary>
-        /// クリアータイム表示用のUIを指定します。
+        /// きょりの点数表示用のUIを指定します。
         /// </summary>
         [SerializeField]
         private GameObject DistanceUI = null;
 
         /// <summary>
-        /// ベストタイム表示用のUIを指定します。
+        /// 人魂の点数表示用のUIを指定します。
         /// </summary>
         [SerializeField]
         private GameObject SoulUI = null;
+        
+        /// <summary>
+        /// 総スコア表示用のUIを指定します。
+        /// </summary>
+        [SerializeField]
+        private GameObject AllScoreUI = null;
 
         // Start is called before the first frame update
         void Start() {
@@ -37,6 +43,9 @@ namespace RunGame.Result
                 GameController.Instance.GameOverDistance[0].ToString("0");
             SoulUI.GetComponentInChildren<Text>().text =
                 GameController.Instance.Soul.ToString("0");
+            AllScoreUI.GetComponentInChildren<Text>().text =
+                GameController.Instance.AllScore.ToString("0");
+
         }
 
         // Update is called once per frame

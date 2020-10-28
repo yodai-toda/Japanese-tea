@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RunGame
 {
@@ -56,6 +57,7 @@ namespace RunGame
         GameObject Player;
         RunGame.Stage.Player script;
         public int Soul = 0;
+        public int AllScore = 0;
 
         /// <summary>
         /// ベストタイムを取得または設定します。
@@ -131,15 +133,24 @@ namespace RunGame
         }
         // Update is called once per frame
         void Update()
-        {
+        {                       
+                Player = GameObject.Find("Player");
+                script = Player.GetComponent<Stage.Player>();            
             if (Player != null)
             {           
-                GameOverDistance = RunGame.Stage.SceneController.Instance.Distance;
-                if(GameOverDistance[0] >= 10000)
+                GameOverDistance[0] = (int)RunGame.Stage.SceneController.Instance.Distance[0];
+                if(GameOverDistance[0] == 9999)
                 {
-                    GameOverDistance[0] = 9999;
+                    GameOverDistance[0] = 10000;
                 }
-                Soul = script.soul;
+                GameOverDistance[0] *= 10;
+                if(script.soul == 99)
+                {
+                    script.soul = 100;
+                }
+                Soul = script.soul * 100;
+
+                AllScore = (int)GameOverDistance[0] + Soul; 
             }
         }
     }

@@ -97,8 +97,11 @@ namespace RunGame.Stage
             player.IsActive = true;
 
             while (true)
-            {
-                Distance = player.transform.position - FirstPos;                
+            {                
+                if(Distance[0] < 10000)
+                {
+                    Distance[0] = player.transform.position[0] - FirstPos[0];
+                }
                 /*#if UNITY_EDITOR
                                 // 「Enter」キーが押された場合『リザルト画面』へ
                                 if (Input.GetKeyUp(KeyCode.Return))

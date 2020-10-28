@@ -28,7 +28,7 @@ namespace RunGame.Stage
         // Update is called once per frame
         void Update() {
             time += Time.deltaTime;
-            if (target != null && time >= 1.93f) 
+            if (target != null && time >= 1.95f) 
             {
                 var position = Camera.main.transform.position;
                 position.x = target.position.x;

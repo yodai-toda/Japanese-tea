@@ -71,6 +71,10 @@ namespace RunGame.Stage
         /// </summary>
         private void UpdateDistanceUI()
         {
+            if (SceneController.Instance.Distance[0] >= 10000)
+            {
+                SceneController.Instance.Distance[0] = 9999;
+            }
             DistanceUI.text = SceneController.Instance.Distance.ToString("0000");
         }
         #endregion

@@ -197,6 +197,7 @@ namespace RunGame.Stage
                 }
                 else if (isShikigami == true)
                 {
+                    isTranspare = false;
                     if (audioSource.isPlaying)
                     {
                         audioSource.Stop();
@@ -294,7 +295,11 @@ namespace RunGame.Stage
                 else
                 {
                     IsDash = false;                    
-                    if (isTranspare == true)
+                    if (isTranspare == true && isShikigami == true)
+                    {
+                        isTranspare = false;
+                    }
+                    else if (isTranspare == true)
                     {
                         var velocity = rigidbody.velocity;
                         velocity.x = transpareSpeed;
@@ -458,7 +463,10 @@ namespace RunGame.Stage
             // アイテムを取得
             if (collider.tag == "Item")
             {
-                soul++;
+                if (soul < 100)
+                {
+                    soul++;
+                }
                 // 取得したアイテムを削除
                 Destroy(collider.gameObject);
             }
@@ -488,6 +496,7 @@ namespace RunGame.Stage
             // 式神ダメージ
             else if (collider.tag == "Shikigami")
             {
+                isTranspare = false;
                 animator.SetBool("isShikigami", true);
                 isShikigami = true;
                 ShikigamiTime = 0;
