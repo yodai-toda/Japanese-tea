@@ -23,7 +23,7 @@ namespace RunGame.Stage
         void Update()
         {
             CreateTimer += Time.deltaTime;
-            if (CreateTime < CreateTimer)
+            if (CreateTime < CreateTimer && target != null)
             {
                 CreateTimer = 0.0f;
                 var position = target.position;

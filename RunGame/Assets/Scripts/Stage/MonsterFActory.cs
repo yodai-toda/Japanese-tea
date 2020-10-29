@@ -31,47 +31,50 @@ namespace RunGame.Stage
         {
             CreateTimer += Time.deltaTime;
             // 一反木綿
-            if(CreateType < 1.0f)
+            if (target != null)
             {
-                if(CreateTime < CreateTimer)
+                if (CreateType < 1.0f)
                 {
-                    CreateTimer = 0.0f;
-                    CreateType = Random.Range(0.0f, 3.0f);
-                    var position = target.position;
-                    position.x = target.position.x + 20;
-                    position.y = transform.position.y -1;
-                    Instantiate(IttanMomenPrefabs, position, Quaternion.identity);
+                    if (CreateTime < CreateTimer)
+                    {
+                        CreateTimer = 0.0f;
+                        CreateType = Random.Range(0.0f, 3.0f);
+                        var position = target.position;
+                        position.x = target.position.x + 20;
+                        position.y = transform.position.y - 1;
+                        Instantiate(IttanMomenPrefabs, position, Quaternion.identity);
+                    }
                 }
-            }
-            // 塗り壁
-            else if(CreateType >= 1.0f && CreateType < 2.0f)
-            {
-                if (CreateTime < CreateTimer)
+                // 塗り壁
+                else if (CreateType >= 1.0f && CreateType < 2.0f)
                 {
-                    CreateTimer = 0.0f;
-                    CreateType = Random.Range(0.0f, 3.0f);
-                    var position = target.position;
-                    position.x = target.position.x + 20;
-                    position.y = transform.position.y ;
-                    Instantiate(NurikabePrefabs, position, Quaternion.identity);
-                    var Position = target.position;
-                    Position.x = target.position.x + 10;
-                    Position.y = Target.position.y;
-                    Instantiate(CatPrefabs, Position, Quaternion.identity);
+                    if (CreateTime < CreateTimer)
+                    {
+                        CreateTimer = 0.0f;
+                        CreateType = Random.Range(0.0f, 3.0f);
+                        var position = target.position;
+                        position.x = target.position.x + 20;
+                        position.y = transform.position.y;
+                        Instantiate(NurikabePrefabs, position, Quaternion.identity);
+                        var Position = target.position;
+                        Position.x = target.position.x + 10;
+                        Position.y = Target.position.y;
+                        Instantiate(CatPrefabs, Position, Quaternion.identity);
+                    }
                 }
-            }
-            // 唐傘
-            else if (CreateType >= 2.0f)
-            {
-                if (CreateTime < CreateTimer)
+                // 唐傘
+                else if (CreateType >= 2.0f)
                 {
-                    CreateTimer = 0.0f;
-                    CreateType = Random.Range(0.0f, 3.0f);
-                    var position = target.position;
-                    position.x = target.position.x + 20;
-                    position.y = transform.position.y -1;
-                    Instantiate(KarakasaPrefabs, position, Quaternion.identity);
-                    
+                    if (CreateTime < CreateTimer)
+                    {
+                        CreateTimer = 0.0f;
+                        CreateType = Random.Range(0.0f, 3.0f);
+                        var position = target.position;
+                        position.x = target.position.x + 20;
+                        position.y = transform.position.y - 1;
+                        Instantiate(KarakasaPrefabs, position, Quaternion.identity);
+
+                    }
                 }
             }
         }

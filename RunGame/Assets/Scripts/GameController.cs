@@ -133,11 +133,11 @@ namespace RunGame
         }
         // Update is called once per frame
         void Update()
-        {                       
-                Player = GameObject.Find("Player");
-                script = Player.GetComponent<Stage.Player>();            
+        {
+            Player = GameObject.Find("Player");
             if (Player != null)
-            {           
+            {                
+                script = Player.GetComponent<Stage.Player>();
                 GameOverDistance[0] = (int)RunGame.Stage.SceneController.Instance.Distance[0];
                 if(GameOverDistance[0] == 9999)
                 {
